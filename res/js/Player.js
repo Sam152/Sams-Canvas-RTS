@@ -10,3 +10,4 @@ var Player = klass(function(settings) {
   }, settings)
 
 });
+

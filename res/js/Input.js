@@ -17,3 +17,4 @@ Input.statics({
   'getKeyState' : function(key_code) {
   }
 });
+
