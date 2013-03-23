@@ -2,8 +2,7 @@
 /**
  * Capture input from a users keyboard and expose it cleanly.
  */
-var Input = klass(function() {
-});
+var Input = klass(function() {});
 
 
 Input.statics({
@@ -11,7 +10,7 @@ Input.statics({
   /**
    * Return the state of an individual key.
    */
-  'getKeyState' : function(key_code) {
+  'keyDown' : function(key_code) {
     return key_code in this.keyStates
       ? this.keyStates[key_code]
       : false;
@@ -36,7 +35,7 @@ Input.statics({
    * A virtual keyboard representing some commonly accessed keys and their
    * corresponding keyCode.
    */
-  'virtualKeyboard' : {
+  'VK' : {
     'KEY_RIGHT' : 39,
     'KEY_LEFT' : 37,
     'KEY_UP' : 38,

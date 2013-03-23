@@ -20,8 +20,11 @@ Ticker.methods({
   'start' : function() {
     var self = this;
 
-    var tick_time = 0;
-    var next_tick_ms = 0;
+    var 
+      start = 0,
+      end = 0,
+      tick_time = 0,
+      next_tick_ms = 0;
 
     // If we have called start, reset the stopped flag.
     this.stopped = false;
@@ -32,9 +35,9 @@ Ticker.methods({
         
         self.count++;
 
-        var start = self.milliseconds();
+        start = self.milliseconds();
         self.settings.tick_function();
-        var end = self.milliseconds();
+        end = self.milliseconds();
 
         tick_time = end - start;
         next_tick_ms = tick_time > self.target_tick_time
@@ -42,6 +45,10 @@ Ticker.methods({
           ? 0
           // Otherwise trigger the next frame at the correct time.
           : self.target_tick_time - tick_time;
+
+        // if (tick_time > self.target_tick_time) {
+        //   console.log('Hitting upper limit');
+        // }
 
         if (!self.stopped) {
           execute_tick();
@@ -67,7 +74,7 @@ Ticker.methods({
   /**
    * Get the number of times we have executed our tick function.
    */
-  'get_tick_count' : function() {
+  'getTickCount' : function() {
     return this.count;
   },
 
@@ -76,7 +83,7 @@ Ticker.methods({
    * A millisecond counter.
    */
   'milliseconds' : function(){
-    return (new Date).getTime();
+    return Date.now();
   },
 
 });

@@ -30,7 +30,7 @@ Sprite.methods({
    * Render a sprite somewhere on the assigned canvas instance.
    */
   'render' : function(x, y) {
-
+    
   },
 
   /**
