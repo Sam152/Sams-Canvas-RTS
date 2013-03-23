@@ -21,8 +21,8 @@ RTS.methods({
     this.canvas = new Canvas();
     this.canvas.create(window.innerWidth, window.innerHeight);
 
-    // Create a grid to play the game on.
-    this.grid = new Grid({'context' : this.canvas.getContext()});
+    this.game = new Game({'context' : this.canvas.getContext() });
+    this.game.setupGame();
 
     // Ensure we are capturing input events.
     Input.startCapture();
@@ -34,7 +34,7 @@ RTS.methods({
    * Called when game is ticking. Handle main gameplay logic.
    */
   'tick' : function() {
-    this.grid.tick();
+    this.game.tick();
   },
 
   /**

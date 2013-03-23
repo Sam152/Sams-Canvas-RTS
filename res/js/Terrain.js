@@ -12,9 +12,7 @@ Terrain.methods({
   'loadPaints' : function() {
 
     this.paints.push(
-      new TerrainPaint({
-
-      })
+      new TerrainPaint({})
     );
 
   }

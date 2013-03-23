@@ -11,7 +11,9 @@ var Grid = klass(function(settings){
     'play_height' : 4000,
     'context' : false,
     'camera_x' : 0,
-    'camera_y' : 0
+    'camera_y' : 0,
+    'screen_scroll_gutter' : 10,
+    'pan_speed' : 15
   }, settings);
 
 });
@@ -34,15 +36,11 @@ Grid.methods({
    * Pan the camera based on user Input.
    */
   'panCamera' : function() {
-
-    var pan_speed = 1;
-
     // Make the board respond to key movements.
-    this.settings.camera_x += Input.keyDown(Input.VK.KEY_LEFT) ? pan_speed : 0;
-    this.settings.camera_x -= Input.keyDown(Input.VK.KEY_RIGHT) ? pan_speed : 0;
-    this.settings.camera_y += Input.keyDown(Input.VK.KEY_UP) ? pan_speed : 0;
-    this.settings.camera_y -= Input.keyDown(Input.VK.KEY_DOWN) ? pan_speed : 0;
-
+    this.settings.camera_x += (Input.keyDown(Input.VK.KEY_LEFT) || Input.mouseOnScreenLeft(this.settings.screen_scroll_gutter)) ? this.settings.pan_speed : 0;
+    this.settings.camera_x -= (Input.keyDown(Input.VK.KEY_RIGHT) || Input.mouseOnScreenRight(this.settings.screen_scroll_gutter)) ? this.settings.pan_speed : 0;
+    this.settings.camera_y += (Input.keyDown(Input.VK.KEY_UP) || Input.mouseOnScreenTop(this.settings.screen_scroll_gutter)) ? this.settings.pan_speed : 0;
+    this.settings.camera_y -= (Input.keyDown(Input.VK.KEY_DOWN) || Input.mouseOnScreenBottom(this.settings.screen_scroll_gutter)) ? this.settings.pan_speed : 0;
   },
 
 
