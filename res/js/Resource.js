@@ -1,6 +1,6 @@
 
 /**
- * Something loaded from disc used by the program.
+ * Something loaded from disk used by the program.
  */
 var Resource = klass(function(settings) {
 
