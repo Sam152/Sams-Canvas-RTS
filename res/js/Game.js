@@ -29,8 +29,8 @@ Game.methods({
   },
 
   'tick' : function() {
-    this.grid.tick();
     this.terrain.tick();
+    this.grid.tick();
   }
 
 });

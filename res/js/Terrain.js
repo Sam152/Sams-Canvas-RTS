@@ -19,12 +19,13 @@ Terrain.methods({
   /**
    * Position our paints around the map.
    */
-  'positionPaints' : function() {
+  'generateTerrain' : function() {
 
-    this.paints.grass.addToGrid(1,2);
-    this.paints.grass.addToGrid(2,3);
-    this.paints.water.addToGrid(2,3);    
-    this.paints.grass.addToGrid(4,1);
+    for (var i = 0; i < this.settings.grid.settings.grid_width; i++) {
+      for (var n = 0; n < this.settings.grid.settings.grid_height; n++) {
+        this.paints.grass.addToGrid(i,n);
+      }
+    }
 
   },
 
@@ -36,7 +37,6 @@ Terrain.methods({
   'loadMap' : function(map_name) {
 
   },
-
 
   /**
    * Take our static paint data and load them into TerrainPaint objects.
@@ -52,7 +52,7 @@ Terrain.methods({
       self.paints[paint_name].loadPaint();
     });
 
-    this.positionPaints();
+    this.generateTerrain();
   },
 
   /**
@@ -89,6 +89,11 @@ Terrain.statics({
       'img' : 'water.jpg',
       'frames' : 6,
       'map_symbol' : '~'
+    },
+    'tree' : {
+      'img' : 'tree.png',
+      'frames' : 1,
+      'map_symbol' : 'i'
     }
   }
 });
