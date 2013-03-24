@@ -9,10 +9,11 @@ var Sprite = Resource.extend(function(settings) {
     'frame_width' : 1,
     'frame_height' : 1,
     'frame_cycle_speed' : 25,
-    'canvas' : false
+    'context' : false,
   }, settings, this.settings);
 
-  this.current_frame = 0;
+  this.image = new Image();
+  this.image.src = this.getPath();
 
 });
 
@@ -29,19 +30,58 @@ Sprite.methods({
   /**
    * Render a sprite somewhere on the assigned canvas instance.
    */
-  'render' : function(x, y) {
-    
+  'render' : function(x, y, frame) {
+
+    if (typeof frame == 'undefined') {
+      frame = 0;
+    }
+
+    this.settings.context.drawImage(
+      this.image,
+      frame * this.settings.frame_width,
+      0,
+      this.settings.frame_width,
+      this.settings.frame_height,
+      x,
+      y,
+      this.settings.frame_width,
+      this.settings.frame_height
+    );
+
   },
+
+
+  /**
+   * Animate the sprite from start to end.
+   */
+  'animate' : function(x, y) {
+
+    if (typeof this.fullAnimation == 'undefined') {
+      this.fullAnimation = this.createAnimationSequence(
+        0,
+        this.settings.total_frames
+      );
+    }
+
+    this.fullAnimation(x, y);
+  },
+
 
   /**
    * Create a sequence of frames to be rendered.
    */
-  'createAnimationSequence' : function() {
+  'createAnimationSequence' : function(start, end, speed) {
     var self = this;
+    var current_frame = start;
 
-    return function() {
-    
+    return function(x, y) {
+      current_frame++;
+      if (current_frame == end) {
+        current_frame = start;
+      }
+
+      self.render(x, y, current_frame);
     };
-  },
+  }
 
 });

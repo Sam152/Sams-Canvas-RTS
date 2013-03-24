@@ -14,12 +14,23 @@ var Game = klass(function(settings) {
 Game.methods({
 
   'setupGame' : function() {
+
     // Create a grid to play the game on.
     this.grid = new Grid({'context' : this.settings.context});
+
+    // Create terrain to paint over the world.
+    this.terrain = new Terrain({
+      'grid' : this.grid,
+      'context' : this.settings.context
+    });
+
+    this.terrain.loadPaints();
+
   },
 
   'tick' : function() {
     this.grid.tick();
+    this.terrain.tick();
   }
 
 });

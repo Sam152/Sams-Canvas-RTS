@@ -7,8 +7,8 @@ var Grid = klass(function(settings){
   this.settings = _.extend({
     'tile_width' : 64,
     'tile_height' : 64,
-    'play_width' : 4000,
-    'play_height' : 4000,
+    'play_width' : 64 * 10,
+    'play_height' : 64 * 10,
     'context' : false,
     'camera_x' : 0,
     'camera_y' : 0,
@@ -25,10 +25,8 @@ Grid.methods({
    * Trigger the movements and actions of our grid.
    */
   'tick' : function() {
-
     this.panCamera();
     this.drawWireGrid();
-
   },
 
 
@@ -63,21 +61,15 @@ Grid.methods({
 
     context.beginPath();
     
-    for (var i = 0; i < this.settings.play_width / this.settings.tile_width; i++) {
+    for (var i = 0; i <= this.settings.play_width / this.settings.tile_width; i++) {
       context.moveTo(i * this.settings.tile_width, 0);
       context.lineTo(i * this.settings.tile_width, this.settings.play_height);
     }
 
-    for (var i = 0; i < this.settings.play_height / this.settings.tile_height; i++) {
+    for (var i = 0; i <= this.settings.play_height / this.settings.tile_height; i++) {
       context.moveTo(0, i * this.settings.tile_height);
       context.lineTo(this.settings.play_width, i * this.settings.tile_height);
     }
-
-    // Lines on the outer borders.
-    context.moveTo(this.settings.play_width, 0);
-    context.lineTo(this.settings.play_width, this.settings.play_height);
-    context.moveTo(0, this.settings.play_height);
-    context.lineTo(this.settings.play_width, this.settings.play_height);
 
     context.stroke();
     context.restore();
