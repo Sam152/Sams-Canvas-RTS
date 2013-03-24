@@ -16,14 +16,17 @@ var Terrain = klass(function(settings) {
 
 Terrain.methods({
 
+  /**
+   * Position our paints around the map.
+   */
   'positionPaints' : function() {
 
     this.paints.grass.addToGrid(1,2);
     this.paints.grass.addToGrid(2,3);
+    this.paints.water.addToGrid(2,3);    
     this.paints.grass.addToGrid(4,1);
 
   },
-
 
   /**
    * Load a map and add the corresponding paints to our grid. Might want to go
@@ -72,6 +75,7 @@ Terrain.methods({
 
 
 Terrain.statics({
+  
   /**
    * The data required to construct a paint.
    */
@@ -80,8 +84,12 @@ Terrain.statics({
       'img' : 'grass.jpg',
       'frames' : 1,
       'map_symbol' : '#'
+    },
+    'water' : {
+      'img' : 'water.jpg',
+      'frames' : 6,
+      'map_symbol' : '~'
     }
   }
-
 });
 

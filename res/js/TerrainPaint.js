@@ -25,7 +25,8 @@ TerrainPaint.methods({
       'total_frames' : this.settings.frames,
       'frame_width' : this.settings.grid.settings.tile_width,
       'frame_height' : this.settings.grid.settings.tile_height,
-      'source' : this.settings.img
+      'source' : this.settings.img,
+      'frame_cycle_speed' : 6
     });
   },
 

@@ -1,6 +1,7 @@
 
 /**
- * Create a ticker to complete a task on regular intervals.
+ * Create a ticker to complete a task asynchronously on regular intervals
+ * accounting for the time taken to complete the task.
  */
 var Ticker = klass(function(settings) {
 
@@ -46,9 +47,9 @@ Ticker.methods({
           // Otherwise trigger the next frame at the correct time.
           : self.target_tick_time - tick_time;
 
-        // if (tick_time > self.target_tick_time) {
-        //   console.log('Hitting upper limit');
-        // }
+        if (tick_time > self.target_tick_time) {
+          console.log('Hitting perf limit at ' + self.settings.ticks_per_second + ' fps.');
+        }
 
         if (!self.stopped) {
           execute_tick();
@@ -59,7 +60,6 @@ Ticker.methods({
     }
 
     execute_tick();
-
   },
 
 

@@ -50,19 +50,13 @@ Sprite.methods({
 
   },
 
-
   /**
    * Animate the sprite from start to end.
    */
   'animate' : function(x, y) {
-
     if (typeof this.fullAnimation == 'undefined') {
-      this.fullAnimation = this.createAnimationSequence(
-        0,
-        this.settings.total_frames
-      );
+      this.fullAnimation = this.createAnimationSequence(0, this.settings.total_frames);
     }
-
     this.fullAnimation(x, y);
   },
 
@@ -74,14 +68,17 @@ Sprite.methods({
     var self = this;
     var current_frame = start;
 
-    return function(x, y) {
+    setInterval(function() {
       current_frame++;
       if (current_frame == end) {
         current_frame = start;
       }
+    }, 1000 / this.settings.frame_cycle_speed)
 
+    return function(x, y) {
       self.render(x, y, current_frame);
     };
   }
 
 });
+

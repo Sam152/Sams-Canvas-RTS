@@ -4,17 +4,27 @@
  */
 var Grid = klass(function(settings){
 
+  var default_tile_width = 64;
+  var default_tile_height = 64;
+
+  var default_play_space = 25;
+
   this.settings = _.extend({
-    'tile_width' : 64,
-    'tile_height' : 64,
-    'play_width' : 64 * 10,
-    'play_height' : 64 * 10,
+    'tile_width' : default_tile_width,
+    'tile_height' : default_tile_height,
+    'play_width' : default_tile_width * default_play_space,
+    'play_height' : default_tile_height * default_play_space,
     'context' : false,
     'camera_x' : 0,
     'camera_y' : 0,
     'screen_scroll_gutter' : 10,
-    'pan_speed' : 15
+    'pan_speed' : 10,
+    'tilt_ratio' : 0.5
   }, settings);
+
+  // Setup the initial camera state to be in the middle of our grid.
+  this.settings.camera_x = -(this.settings.play_width / 2) + window.innerWidth / 2;
+  this.settings.camera_y = -(this.settings.play_height / (2 * (1/this.settings.tilt_ratio))) + window.innerHeight / 2;
 
 });
 
@@ -83,9 +93,8 @@ Grid.methods({
    */
   'applyIsometricTilt' : function() {
     var context = this.settings.context;
-    var title_angle = 40;
 
-    context.scale(1, 0.5);
+    context.scale(1, this.settings.tilt_ratio);
 
     context.translate(this.settings.play_width / 2, this.settings.play_height / 2);
     context.rotate(Grid.degreesToRadians(45));

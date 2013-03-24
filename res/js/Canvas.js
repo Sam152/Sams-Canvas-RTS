@@ -48,3 +48,4 @@ Canvas.methods({
   }
 
 });
+
