@@ -30,24 +30,27 @@ Sprite.methods({
   /**
    * Render a sprite somewhere on the assigned canvas instance.
    */
-  'render' : function(x, y, frame) {
+  'render' : function(x, y, isometric, frame) {
 
     if (typeof frame == 'undefined') {
       frame = 0;
     }
 
-    var c = this.settings.context;
-
-    c.save();
-
-    if (this.settings.context.non_isometric) {
-      c.translate(x-65,y-20);
-      c.rotate(Grid.degreesToRadians(-45));
-      c.scale(1, 1/0.5);
-      c.translate(-x,-y);
+    if (typeof isometric == 'undefined') {
+      isometric = true;
     }
 
-    this.settings.context.drawImage(
+    var context = this.settings.context;
+
+    if (!isometric) {
+      context.save();
+      context.translate(x-65,y-20);
+      context.rotate(Grid.degreesToRadians(-45));
+      context.scale(1, 1/0.5);
+      context.translate(-x,-y);
+    }
+
+    context.drawImage(
       this.image,
       frame * this.settings.frame_width,
       0,
@@ -59,18 +62,21 @@ Sprite.methods({
       this.settings.frame_height
     );
 
-    c.restore();
+    if (!isometric) {
+      context.restore();
+    }
+
 
   },
 
   /**
    * Animate the sprite from start to end.
    */
-  'animate' : function(x, y) {
+  'animate' : function(x, y, isometric) {
     if (typeof this.fullAnimation == 'undefined') {
       this.fullAnimation = this.createAnimationSequence(0, this.settings.total_frames);
     }
-    this.fullAnimation(x, y);
+    this.fullAnimation(x, y, isometric);
   },
 
 
@@ -88,8 +94,8 @@ Sprite.methods({
       }
     }, 1000 / this.settings.frame_cycle_speed)
 
-    return function(x, y) {
-      self.render(x, y, current_frame);
+    return function(x, y, isometric) {
+      self.render(x, y, isometric, current_frame);
     };
   }
 

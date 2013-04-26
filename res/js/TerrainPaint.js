@@ -34,7 +34,7 @@ TerrainPaint.methods({
   'draw' : function() {
     var self = this;
     _.each(this.paint_locations, function(location) {
-      self.sprite.animate(location.pixel_x, location.pixel_y);
+      self.sprite.animate(location.pixel_x, location.pixel_y, self.settings.isometic);
     });
   },
 

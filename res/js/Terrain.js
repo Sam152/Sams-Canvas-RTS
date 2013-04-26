@@ -68,15 +68,7 @@ Terrain.methods({
 
     // Loop through all our paints and draw each one.
     _.each(self.paints, function(paint, paint_name) {
-
-      var is_isometric = paint.settings.isometic;
-
-      if (!is_isometric) {
-        self.settings.grid.setContextNonIsometric();
-      }
-
       paint.draw();
-
     });
 
     self.settings.context.restore();

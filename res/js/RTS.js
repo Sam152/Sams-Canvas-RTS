@@ -51,9 +51,9 @@ RTS.methods({
       {
         'tick_function' : function() {
           self.canvas.clearContext();
-          self.tick();        
+          self.tick();
         },
-        'ticks_per_second' : 30
+        'ticks_per_second' : 24
       }
     ).start();
   }

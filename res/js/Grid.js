@@ -7,7 +7,7 @@ var Grid = klass(function(settings){
   var default_tile_width = 64;
   var default_tile_height = 64;
 
-  var default_play_space = 10;
+  var default_play_space = 50;
 
   this.settings = _.extend({
     'tile_width' : default_tile_width,
