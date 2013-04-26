@@ -24,6 +24,7 @@ Terrain.methods({
     for (var i = 0; i < this.settings.grid.settings.grid_width; i++) {
       for (var n = 0; n < this.settings.grid.settings.grid_height; n++) {
         this.paints.grass.addToGrid(i,n);
+        this.paints.tree.addToGrid(i,n);
       }
     }
 
@@ -44,10 +45,10 @@ Terrain.methods({
   'loadPaints' : function() {
     var self = this;
     _.each(Terrain.paint_data, function(data, paint_name) {
-      
+
       data.grid = self.settings.grid;
       data.context = self.settings.context;
-      
+
       self.paints[paint_name] = new TerrainPaint(data);
       self.paints[paint_name].loadPaint();
     });
@@ -59,41 +60,57 @@ Terrain.methods({
    * Ensure every tick our paints are correctly rendered on the play grid.
    */
   'tick' : function() {
-    
-    this.settings.context.save();
-    this.settings.grid.applyViewportTransformation();
-    this.settings.grid.applyIsometricTilt();
+    var self = this;
 
-    _.each(this.paints, function(paint, paint_name) {
+    self.settings.context.save();
+    self.settings.grid.applyViewportTransformation();
+
+    // Loop through all our paints and draw each one.
+    _.each(self.paints, function(paint, paint_name) {
+
+      var is_isometric = paint.settings.isometic;
+      self.settings.context.save();
+
+      if (is_isometric) {
+        self.settings.grid.applyIsometricTilt();
+      } else {
+        self.settings.grid.applyNonIsometricTilt();
+      }
+
       paint.draw();
+      self.settings.context.restore();
+
     });
 
-    this.settings.context.restore();
+    self.settings.context.restore();
   }
 
 });
 
 
 Terrain.statics({
-  
+
   /**
    * The data required to construct a paint.
    */
   'paint_data' : {
-    'grass' : {
-      'img' : 'grass.jpg',
-      'frames' : 1,
-      'map_symbol' : '#'
-    },
     'water' : {
       'img' : 'water.jpg',
       'frames' : 6,
-      'map_symbol' : '~'
+      'map_symbol' : '~',
+      'isometic' : true
+    },
+    'grass' : {
+      'img' : 'grass.jpg',
+      'frames' : 1,
+      'map_symbol' : '#',
+      'isometic' : true
     },
     'tree' : {
       'img' : 'tree.png',
       'frames' : 1,
-      'map_symbol' : 'i'
+      'map_symbol' : 'i',
+      'isometic' : false
     }
   }
 });

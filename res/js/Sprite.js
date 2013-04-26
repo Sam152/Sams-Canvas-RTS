@@ -36,6 +36,16 @@ Sprite.methods({
       frame = 0;
     }
 
+    var c = this.settings.context;
+
+    c.save();
+    if (this.settings.context.noIso) {
+      c.translate(x-65,y-20);
+      c.rotate(Grid.degreesToRadians(-45));
+      c.scale(1, 1/0.5);
+      c.translate(-x,-y);
+    }
+
     this.settings.context.drawImage(
       this.image,
       frame * this.settings.frame_width,
@@ -47,6 +57,8 @@ Sprite.methods({
       this.settings.frame_width,
       this.settings.frame_height
     );
+
+    c.restore();
 
   },
 

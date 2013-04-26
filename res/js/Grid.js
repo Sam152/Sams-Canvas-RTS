@@ -7,7 +7,7 @@ var Grid = klass(function(settings){
   var default_tile_width = 64;
   var default_tile_height = 64;
 
-  var default_play_space = 25;
+  var default_play_space = 10;
 
   this.settings = _.extend({
     'tile_width' : default_tile_width,
@@ -72,7 +72,7 @@ Grid.methods({
     context.lineWidth = 0.4;
 
     context.beginPath();
-    
+
     for (var i = 0; i <= this.settings.pixel_grid_width / this.settings.tile_width; i++) {
       context.moveTo(i * this.settings.tile_width, 0);
       context.lineTo(i * this.settings.tile_width, this.settings.pixel_grid_height);
@@ -85,6 +85,7 @@ Grid.methods({
 
     context.stroke();
     context.restore();
+
   },
 
 
@@ -99,7 +100,21 @@ Grid.methods({
     context.translate(this.settings.pixel_grid_width / 2, this.settings.pixel_grid_height / 2);
     context.rotate(Grid.degreesToRadians(45));
     context.translate(-this.settings.pixel_grid_width / 2, -this.settings.pixel_grid_height / 2);
-  
+
+    context.noIso = false;
+
+  },
+
+
+  'applyNonIsometricTilt' : function() {
+
+    var context = this.settings.context;
+    context.noIso = true;
+
+    context.scale(1, this.settings.tilt_ratio);
+    context.translate(this.settings.pixel_grid_width / 2, this.settings.pixel_grid_height / 2);
+    context.rotate(Grid.degreesToRadians(45));
+    context.translate(-this.settings.pixel_grid_width / 2, -this.settings.pixel_grid_height / 2);
   },
 
   /**

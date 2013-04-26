@@ -9,6 +9,7 @@ var TerrainPaint = klass(function(settings) {
     'frames' : 1,
     'map_symbol' : '!',
     'grid' : false,
+    'isometic' : true,
     'context' : false
   }, settings);
 
@@ -18,7 +19,7 @@ var TerrainPaint = klass(function(settings) {
 
 
 TerrainPaint.methods({
-  
+
   'loadPaint' : function() {
     this.sprite = new Sprite({
       'context' : this.settings.context,
