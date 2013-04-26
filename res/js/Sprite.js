@@ -43,11 +43,13 @@ Sprite.methods({
     var context = this.settings.context;
 
     if (!isometric) {
+      // Either this or figure out a way to transform window x,y's from grid x,y's.
       context.save();
-      context.translate(x-65,y-20);
+      context.translate(x-65,y-20); // Comment out this.
       context.rotate(Grid.degreesToRadians(-45));
       context.scale(1, 1/0.5);
-      context.translate(-x,-y);
+      context.translate(-x,-y); // And this..
+      // To see the issue of transforming one grid system into the other.
     }
 
     context.drawImage(
