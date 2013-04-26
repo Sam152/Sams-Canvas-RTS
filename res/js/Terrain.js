@@ -64,21 +64,18 @@ Terrain.methods({
 
     self.settings.context.save();
     self.settings.grid.applyViewportTransformation();
+    self.settings.grid.applyIsometricTilt();
 
     // Loop through all our paints and draw each one.
     _.each(self.paints, function(paint, paint_name) {
 
       var is_isometric = paint.settings.isometic;
-      self.settings.context.save();
 
-      if (is_isometric) {
-        self.settings.grid.applyIsometricTilt();
-      } else {
-        self.settings.grid.applyNonIsometricTilt();
+      if (!is_isometric) {
+        self.settings.grid.setContextNonIsometric();
       }
 
       paint.draw();
-      self.settings.context.restore();
 
     });
 

@@ -39,7 +39,8 @@ Sprite.methods({
     var c = this.settings.context;
 
     c.save();
-    if (this.settings.context.noIso) {
+
+    if (this.settings.context.non_isometric) {
       c.translate(x-65,y-20);
       c.rotate(Grid.degreesToRadians(-45));
       c.scale(1, 1/0.5);

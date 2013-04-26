@@ -101,20 +101,13 @@ Grid.methods({
     context.rotate(Grid.degreesToRadians(45));
     context.translate(-this.settings.pixel_grid_width / 2, -this.settings.pixel_grid_height / 2);
 
-    context.noIso = false;
+    context.non_isometric = false;
 
   },
 
 
-  'applyNonIsometricTilt' : function() {
-
-    var context = this.settings.context;
-    context.noIso = true;
-
-    context.scale(1, this.settings.tilt_ratio);
-    context.translate(this.settings.pixel_grid_width / 2, this.settings.pixel_grid_height / 2);
-    context.rotate(Grid.degreesToRadians(45));
-    context.translate(-this.settings.pixel_grid_width / 2, -this.settings.pixel_grid_height / 2);
+  'setContextNonIsometric' : function() {
+    this.settings.context.non_isometric = true;
   },
 
   /**
