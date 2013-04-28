@@ -16,8 +16,6 @@ var Grid = klass(function(settings){
     'tile_height' : default_tile_height,
     'grid_width' : default_play_space,
     'grid_height' : default_play_space,
-    'pixel_grid_width' : default_tile_width * default_play_space,
-    'pixel_grid_height' : default_tile_height * default_play_space,
     'context' : false,
     'camera_x' : 0,
     'camera_y' : 0,
@@ -25,6 +23,10 @@ var Grid = klass(function(settings){
     'pan_speed' : 10,
     'tilt_ratio' : 0.5
   }, settings);
+
+  // Calculate some dimensions.
+  this.settings.pixel_grid_width = this.settings.tile_width * this.settings.grid_width;
+  this.settings.pixel_grid_height = this.settings.tile_height * this.settings.grid_height;
 
   // Setup the initial camera state to be in the middle of our grid.
   var grid_middle = this.gridToReal(this.settings.pixel_grid_width / 2, this.settings.pixel_grid_height / 2);
@@ -68,7 +70,6 @@ Grid.methods({
    * Apply visible lines across our isometric board.
    */
   'drawWireGrid' : function() {
-
     var context = this.settings.context;
 
     context.save();
@@ -95,7 +96,6 @@ Grid.methods({
 
     context.stroke();
     context.restore();
-
   },
 
   /**

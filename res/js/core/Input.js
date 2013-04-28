@@ -36,8 +36,8 @@ Input.statics({
 
     function updateMouseState(e) {
       self.mouse_position = {
-        'offsetX' : e.offsetX,
-        'offsetY' : e.offsetY,
+        'offsetX' : e.pageX,
+        'offsetY' : e.pageY,
         'screenX' : e.screenX,
         'screenY' : e.screenY,
         'moved' : true
@@ -46,7 +46,7 @@ Input.statics({
 
     window.addEventListener('keydown', updateKeyState);
     window.addEventListener('keyup', updateKeyState);
-    window.addEventListener('mousemove', updateMouseState);
+    document.body.addEventListener('mousemove', updateMouseState);
   },
 
 

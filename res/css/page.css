@@ -10,3 +10,42 @@ canvas{
   height: 100%;
   display: block;
 }
+
+#bucket{
+  position:absolute;
+  top:30px;
+  left:30px;
+  background-color:#eee;
+  border:1px solid #555;
+  padding:10px;
+  border-radius:5px;
+}
+
+#bucket .wrap,
+#bucket .wrap img{
+  width:64px;
+  height:64px;
+}
+
+#bucket .wrap{
+  overflow:hidden;
+  margin-bottom:5px;
+  border:1px solid #999;
+}
+
+#bucket .wrap.active{
+  outline:4px solid rgba(255,0,0,0.8);
+}
+
+#bucket img{
+  display:block;
+}
+
+*{
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

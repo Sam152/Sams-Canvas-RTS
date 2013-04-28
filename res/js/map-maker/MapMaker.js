@@ -33,7 +33,6 @@ MapMaker.methods({
 
     // Load all of the required paints.
     this.terrain.loadPaints();
-    this.terrain.generateGameTerrain();
 
     // Create a new instance of a paint bucket.
     this.paint_bucket = new PaintBucket({

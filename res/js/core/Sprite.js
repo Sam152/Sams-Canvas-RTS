@@ -98,7 +98,16 @@ Sprite.methods({
     return function(x, y) {
       self.render(x, y, current_frame);
     };
-  }
+  },
+
+  /**
+   * Get a DOM node representing the image of this sprite.
+   */
+  'getDomNode' : function() {
+    var img = document.createElement('img');
+    img.src = this.getPath();
+    return img;
+  },
 
 });
 

@@ -20,8 +20,8 @@ Terrain.methods({
    * Position our paints around the map.
    */
   'generateGameTerrain' : function() {
-    this.applyCoat(this.paints.grass);
-    this.applyCoat(this.paints.tree);
+    this.applyCoat(this.paints.sand);
+    // this.applyCoat(this.paints.tree);
   },
 
   /**
@@ -59,6 +59,7 @@ Terrain.methods({
 
       data.grid = self.settings.grid;
       data.context = self.settings.context;
+      data.name = paint_name;
       self.paints[paint_name] = new TerrainPaint(data);
       self.paints[paint_name].loadPaint();
     });
@@ -119,13 +120,20 @@ Terrain.statics({
       'isometric' : true,
       'offset' : 0
     },
+    'sand' : {
+      'img' : 'sand.jpeg',
+      'frames' : 1,
+      'map_symbol' : 'i',
+      'isometric' : true,
+      'offset' : 30
+    },
     'tree' : {
       'img' : 'tree.png',
       'frames' : 1,
       'map_symbol' : 'i',
       'isometric' : false,
       'offset' : 30
-    }
+    },
   }
 });
 

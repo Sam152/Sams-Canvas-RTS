@@ -10,7 +10,8 @@ var TerrainPaint = klass(function(settings) {
     'map_symbol' : '!',
     'grid' : false,
     'isometric' : true,
-    'context' : false
+    'context' : false,
+    'name' : false
   }, settings);
 
   this.paint_locations = [];
