@@ -30,14 +30,15 @@ Terrain.methods({
 
   },
 
+
   /**
    * Load a map and add the corresponding paints to our grid. Might want to go
    * with generated maps instead of loaded maps, but they may be handy for
    * predetermined terrains.
    */
   'loadMap' : function(map_name) {
-
   },
+
 
   /**
    * Take our static paint data and load them into TerrainPaint objects.
@@ -48,13 +49,13 @@ Terrain.methods({
 
       data.grid = self.settings.grid;
       data.context = self.settings.context;
-
       self.paints[paint_name] = new TerrainPaint(data);
       self.paints[paint_name].loadPaint();
     });
 
     this.generateTerrain();
   },
+
 
   /**
    * Ensure every tick our paints are correctly rendered on the play grid.
@@ -87,19 +88,22 @@ Terrain.statics({
       'img' : 'water.jpg',
       'frames' : 6,
       'map_symbol' : '~',
-      'isometic' : true
+      'isometric' : true,
+      'offset' : 0
     },
     'grass' : {
       'img' : 'grass.jpg',
       'frames' : 1,
       'map_symbol' : '#',
-      'isometic' : true
+      'isometric' : true,
+      'offset' : 0
     },
     'tree' : {
       'img' : 'tree.png',
       'frames' : 1,
       'map_symbol' : 'i',
-      'isometic' : false
+      'isometric' : false,
+      'offset' : 30
     }
   }
 });

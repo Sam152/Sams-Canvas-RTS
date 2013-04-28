@@ -9,7 +9,7 @@ var TerrainPaint = klass(function(settings) {
     'frames' : 1,
     'map_symbol' : '!',
     'grid' : false,
-    'isometic' : true,
+    'isometric' : true,
     'context' : false
   }, settings);
 
@@ -27,7 +27,9 @@ TerrainPaint.methods({
       'frame_width' : this.settings.grid.settings.tile_width,
       'frame_height' : this.settings.grid.settings.tile_height,
       'source' : this.settings.img,
-      'frame_cycle_speed' : 6
+      'isometric' : this.settings.isometric,
+      'frame_cycle_speed' : 6,
+      'position_offset' : this.settings.offset
     });
   },
 

@@ -7,7 +7,7 @@ var Grid = klass(function(settings){
   var default_tile_width = 64;
   var default_tile_height = 64;
 
-  var default_play_space = 50;
+  var default_play_space = 5;
 
   this.settings = _.extend({
     'tile_width' : default_tile_width,
@@ -37,7 +37,7 @@ Grid.methods({
    * Trigger the movements and actions of our grid.
    */
   'tick' : function() {
-    this.drawWireGrid();
+    // this.drawWireGrid();
     this.panCamera();
   },
 
@@ -100,9 +100,6 @@ Grid.methods({
     context.translate(this.settings.pixel_grid_width / 2, this.settings.pixel_grid_height / 2);
     context.rotate(Grid.degreesToRadians(45));
     context.translate(-this.settings.pixel_grid_width / 2, -this.settings.pixel_grid_height / 2);
-
-    context.non_isometric = false;
-
   },
 
 

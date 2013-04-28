@@ -10,6 +10,8 @@ var Sprite = Resource.extend(function(settings) {
     'frame_height' : 1,
     'frame_cycle_speed' : 25,
     'context' : false,
+    'position_offset' : 0,
+    'isometric' : true
   }, settings, this.settings);
 
   this.image = new Image();
@@ -30,26 +32,24 @@ Sprite.methods({
   /**
    * Render a sprite somewhere on the assigned canvas instance.
    */
-  'render' : function(x, y, isometric, frame) {
+  'render' : function(x, y, frame) {
 
     if (typeof frame == 'undefined') {
       frame = 0;
     }
 
-    if (typeof isometric == 'undefined') {
-      isometric = true;
-    }
-
     var context = this.settings.context;
+    var frame_width = this.settings.frame_width;
+    var frame_height = this.settings.frame_height;
+    var offset = this.settings.position_offset;
 
-    if (!isometric) {
-      // Either this or figure out a way to transform window x,y's from grid x,y's.
+    if (!this.settings.isometric) {
+      // Either this or figure out a way to transform points correctly.
       context.save();
-      context.translate(x-65,y-20); // Comment out this.
+      context.translate(x+(frame_width/2)-offset,y+(frame_height/2)-offset);
       context.rotate(Grid.degreesToRadians(-45));
       context.scale(1, 1/0.5);
-      context.translate(-x,-y); // And this..
-      // To see the issue of transforming one grid system into the other.
+      context.translate(-x-(frame_width/2),-y-(frame_height/2));
     }
 
     context.drawImage(
@@ -64,21 +64,20 @@ Sprite.methods({
       this.settings.frame_height
     );
 
-    if (!isometric) {
+    if (!this.settings.isometric) {
       context.restore();
     }
-
 
   },
 
   /**
    * Animate the sprite from start to end.
    */
-  'animate' : function(x, y, isometric) {
+  'animate' : function(x, y) {
     if (typeof this.fullAnimation == 'undefined') {
       this.fullAnimation = this.createAnimationSequence(0, this.settings.total_frames);
     }
-    this.fullAnimation(x, y, isometric);
+    this.fullAnimation(x, y);
   },
 
 
@@ -96,8 +95,8 @@ Sprite.methods({
       }
     }, 1000 / this.settings.frame_cycle_speed)
 
-    return function(x, y, isometric) {
-      self.render(x, y, isometric, current_frame);
+    return function(x, y) {
+      self.render(x, y, current_frame);
     };
   }
 
