@@ -51,6 +51,20 @@ Input.statics({
 
 
   /**
+   * Get the last known location of the mouse.
+   */
+  'getMouseState' : function() {
+    return this.mouse_position;
+  },
+
+  /**
+   * Register an event listener for moving of the mouse.
+   */
+  'mouseMove' : function(func) {
+    window.addEventListener('mousemove', func);
+  },
+
+  /**
    * Some methods to determin if the mouse is on a screen's edge.
    */
   'mouseOnScreenLeft' : function(gutter_width) {

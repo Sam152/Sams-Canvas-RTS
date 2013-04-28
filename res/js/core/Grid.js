@@ -1,13 +1,15 @@
 
 /**
  * A grid that represents a the play board.
+ *
+ * @todo, give the camera it's own class.
  */
 var Grid = klass(function(settings){
 
   var default_tile_width = 64;
   var default_tile_height = 64;
 
-  var default_play_space = 5;
+  var default_play_space = 30;
 
   this.settings = _.extend({
     'tile_width' : default_tile_width,
@@ -25,8 +27,8 @@ var Grid = klass(function(settings){
   }, settings);
 
   // Setup the initial camera state to be in the middle of our grid.
-  this.settings.camera_x = -(this.settings.pixel_grid_width / 2) + window.innerWidth / 2;
-  this.settings.camera_y = -(this.settings.pixel_grid_height / (2 * (1/this.settings.tilt_ratio))) + window.innerHeight / 2;
+  var grid_middle = this.gridToReal(this.settings.pixel_grid_width / 2, this.settings.pixel_grid_height / 2);
+  this.setCameraCenter(grid_middle.x, grid_middle.y);
 
 });
 
@@ -37,7 +39,7 @@ Grid.methods({
    * Trigger the movements and actions of our grid.
    */
   'tick' : function() {
-    // this.drawWireGrid();
+    this.drawWireGrid();
     this.panCamera();
   },
 
@@ -51,6 +53,14 @@ Grid.methods({
     this.settings.camera_x -= (Input.keyDown(Input.VK.KEY_RIGHT) || Input.mouseOnScreenRight(this.settings.screen_scroll_gutter)) ? this.settings.pan_speed : 0;
     this.settings.camera_y += (Input.keyDown(Input.VK.KEY_UP) || Input.mouseOnScreenTop(this.settings.screen_scroll_gutter)) ? this.settings.pan_speed : 0;
     this.settings.camera_y -= (Input.keyDown(Input.VK.KEY_DOWN) || Input.mouseOnScreenBottom(this.settings.screen_scroll_gutter)) ? this.settings.pan_speed : 0;
+  },
+
+  /**
+   * Set the center of the camera to the specified co-ordinates.
+   */
+  'setCameraCenter' : function(x, y) {
+    this.settings.camera_x = (innerWidth/2) - x/4;
+    this.settings.camera_y = (innerHeight/2) - y/4;
   },
 
 
@@ -88,6 +98,38 @@ Grid.methods({
 
   },
 
+  /**
+   * Highlight a set of grid co-ordinates.
+   */
+  'highlightWireGrid' : function(x, y) {
+
+    var context = this.settings.context;
+
+    context.save();
+
+    this.applyViewportTransformation();
+    this.applyIsometricTilt();
+
+    context.strokeStyle = '#f00';
+    context.lineWidth = 4;
+    context.beginPath();
+
+    var start_x = x * this.settings.tile_width;
+    var end_x = start_x + this.settings.tile_width;
+
+    var start_y = y * this.settings.tile_height;
+    var end_y = start_y + this.settings.tile_height;
+
+    context.moveTo(start_x, start_y);
+    context.lineTo(end_x, start_y);
+    context.lineTo(end_x, end_y);
+    context.lineTo(end_x - this.settings.tile_width, end_y);
+    context.lineTo(start_x, start_y);
+
+    context.stroke();
+    context.restore();
+  },
+
 
   /**
    * Apply an isometric tilt to the canvas context for rendering square elements
@@ -95,11 +137,8 @@ Grid.methods({
    */
   'applyIsometricTilt' : function() {
     var context = this.settings.context;
-
     context.scale(1, this.settings.tilt_ratio);
-    context.translate(this.settings.pixel_grid_width / 2, this.settings.pixel_grid_height / 2);
     context.rotate(Grid.degreesToRadians(45));
-    context.translate(-this.settings.pixel_grid_width / 2, -this.settings.pixel_grid_height / 2);
   },
 
 
@@ -119,9 +158,44 @@ Grid.methods({
   /**
    * Get the real canvas coordinates from a grid square that has been transformed.
    */
-  'getGridCoordinates' : function(x, y) {
+  'getGridCoordinatesByTile' : function(x, y) {
     var grid_x = this.settings.tile_width * x;
     var grid_y = this.settings.tile_height * y;
+    return {x : grid_x, y : grid_y};
+  },
+
+  'getTileByGridCoordinates' : function(x, y) {
+    var grid_x = Math.floor(x / this.settings.tile_width);
+    var grid_y = Math.floor(y / this.settings.tile_height);
+    return {x : grid_x, y : grid_y};
+  },
+
+  /**
+   * Take a coordinate on the screen and convert it to the grid coordinates.
+   */
+  'realToGrid' : function(x, y) {
+    x -= this.settings.camera_x;
+    y -= this.settings.camera_y;
+    var r = 2;
+    var d = 1.4;
+    return {
+      'x' : Math.floor(x/d + r*y/d),
+      'y' : Math.floor(r*y/d - x/d)
+    };
+  },
+
+  /**
+   * Get the grid coordinate and map it to a screen one.
+   */
+  'gridToReal' : function(xi, yi) {
+    xi += this.settings.camera_x;
+    yi += this.settings.camera_y;
+    var r = 2;
+    var d = 1.4;
+    return {
+      'x' : (xi - yi) * d / r,
+      'y' : (xi + yi) * d
+    };
   }
 
 });
