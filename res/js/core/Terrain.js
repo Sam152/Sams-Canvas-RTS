@@ -19,17 +19,21 @@ Terrain.methods({
   /**
    * Position our paints around the map.
    */
-  'generateTerrain' : function() {
-
-    for (var i = 0; i < this.settings.grid.settings.grid_width; i++) {
-      for (var n = 0; n < this.settings.grid.settings.grid_height; n++) {
-        this.paints.grass.addToGrid(i,n);
-        this.paints.tree.addToGrid(i,n);
-      }
-    }
-
+  'generateGameTerrain' : function() {
+    this.applyCoat(this.paints.grass);
+    this.applyCoat(this.paints.tree);
   },
 
+  /**
+   * Apply a coat of paint to the entire map.
+   */
+  'applyCoat' : function(paint) {
+    for (var i = 0; i < this.settings.grid.settings.grid_width; i++) {
+      for (var n = 0; n < this.settings.grid.settings.grid_height; n++) {
+        paint.addToGrid(i,n);
+      }
+    }
+  },
 
   /**
    * Load a map and add the corresponding paints to our grid. Might want to go
@@ -39,6 +43,12 @@ Terrain.methods({
   'loadMap' : function(map_name) {
   },
 
+  /**
+   * Get a map of the current terrain as it stands.
+   */
+  'getMap' : function() {
+
+  },
 
   /**
    * Take our static paint data and load them into TerrainPaint objects.
@@ -52,10 +62,21 @@ Terrain.methods({
       self.paints[paint_name] = new TerrainPaint(data);
       self.paints[paint_name].loadPaint();
     });
-
-    this.generateTerrain();
   },
 
+  /**
+   * Allow users of this class access to the paints.
+   */
+  'getPaint' : function(paint_name) {
+    return this.paints[paint_name];
+  },
+
+  /**
+   * Allow users of this class access to all the paints.
+   */
+   'getPaints' : function() {
+      return this.paints;
+   },
 
   /**
    * Ensure every tick our paints are correctly rendered on the play grid.

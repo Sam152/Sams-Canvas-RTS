@@ -25,7 +25,7 @@ Game.methods({
     });
 
     this.terrain.loadPaints();
-
+    this.terrain.generateGameTerrain();
   },
 
   'tick' : function() {
