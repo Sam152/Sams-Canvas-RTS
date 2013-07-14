@@ -41,26 +41,30 @@ PaintBucket.methods({
 
     // Create some DOM elements with our resources in them.
     self.$bucket = $('<div/>').attr('id', 'bucket');
+    self.$paint_wrapper = $('<div/>').attr('id', 'paint-wrapper');
     var paints = self.settings.terrain.getPaints();
     $.each(paints, function(name, paint) {
       var img = paint.sprite.getDomNode();
       var $wrap = $('<div/>', {'class' : 'wrap', 'id': 'paint-' + name}).append(img);
       $wrap.data('paint', paint);
-      self.$bucket.append($wrap);
+      self.$paint_wrapper.append($wrap);
     });
+
+    self.$bucket.append(self.$paint_wrapper);
 
     self.$clear = $('<div/>').attr('id', 'clear');
     self.$save = $('<div/>').attr('id', 'save');
+    self.$load = $('<div/>').attr('id', 'load');
 
     self.$bucket.append(self.$clear);
     self.$bucket.append(self.$save);
+    self.$bucket.append(self.$load);
 
     // Add them to body for lack of a better place.
     $('body').append(self.$bucket);
 
     // Set the active paint when one is clicked.
     $('.wrap').click(function(e) {
-      e.stopPropagation();
       self.setActivePaint($(this).data('paint').settings.name);
     });
 
@@ -72,6 +76,17 @@ PaintBucket.methods({
       self.map_state.saveMap(self.settings.grid);
     });
 
+    self.$load.click(function() {
+      var map_name = prompt('Enter the name of a map', '');
+      if (map_name) {
+        self.map_state.loadMap(map_name + '.map');
+      }
+    });
+
+    // Stop interactions with the bucket messing with the canvas.
+    self.$bucket.click(function(e) {
+      e.stopPropagation();
+    });
   },
 
   /**

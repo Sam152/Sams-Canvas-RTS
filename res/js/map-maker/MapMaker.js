@@ -21,8 +21,8 @@ MapMaker.methods({
     // Create a grid to play the game on.
     this.grid = new Grid({
       'context' : context,
-      'grid_width' : 60,
-      'grid_height' : 60
+      'grid_width' : 220,
+      'grid_height' : 220
     });
 
     // Create terrain to paint over the world.

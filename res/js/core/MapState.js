@@ -119,21 +119,23 @@ MapState.methods({
       });
     });
 
+    // Save our points and the size of our grid.
     var map = {
       'points' : points,
       'width' : grid.settings.grid_width,
       'height' : grid.settings.grid_height
     }
 
-    console.clear();
-
     // Encode and compress our map.
     var uncompressed_map = JSON.stringify(map);
-    var compressed_map = lzw_encode(uncompressed_map);
 
-    console.log('Origianl size: ' + (uncompressed_map.length/1000) + 'mb');
-    console.log('Compressed size: ' + (compressed_map.length/1000) + 'mb');
+    // Turned out to be too hard to copy into files due to the encoding.
+    //var compressed_map = lzw_encode(uncompressed_map);
 
-    window.prompt ("Copy to clipboard: Ctrl+C, Enter", uncompressed_map);
+    // Chrome collapses this.
+    //window.prompt("Copy to clipboard: Ctrl+C, Enter", uncompressed_map);
+
+    console.log(uncompressed_map);
+
   }
 });

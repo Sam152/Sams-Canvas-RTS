@@ -204,6 +204,9 @@ Grid.methods({
     this.settings.pixel_grid_width = this.settings.tile_width * width;
     this.settings.pixel_grid_height = this.settings.tile_height * height;
 
+    this.settings.camera_x = 0;
+    this.settings.camera_y = 0;
+
     // Setup the initial camera state to be in the middle of our grid.
     var grid_middle = this.gridToReal(this.settings.pixel_grid_width / 2, this.settings.pixel_grid_height / 2);
     this.setCameraCenter(grid_middle.x, grid_middle.y);

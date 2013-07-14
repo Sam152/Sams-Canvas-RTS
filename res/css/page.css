@@ -17,14 +17,14 @@ canvas{
   left:30px;
   background-color:#eee;
   border:1px solid #555;
-  padding:10px;
+  padding:10px 0 10px 10px;
   border-radius:5px;
 }
 
 #bucket .wrap,
 #bucket .wrap img{
-  width:32px;
-  height:32px;
+  width: 52px;
+  height: 52px;
 }
 
 #bucket .wrap{
@@ -34,7 +34,7 @@ canvas{
 }
 
 #bucket .wrap.active{
-  outline:4px solid rgba(255,0,0,0.8);
+  outline:2px solid rgba(255,0,0,0.8);
 }
 
 #bucket img{
@@ -42,15 +42,28 @@ canvas{
 }
 
 #clear,
-#save{
+#save,
+#load{
   width:16px;
   height:16px;
   float:left;
   background-image:url('../img/save.png');
+  margin-right:3px;
+  cursor:pointer;
 }
 
 #clear{
   background-image:url('../img/delete.png');
+}
+
+#load{
+  background-image:url('../img/load.png');
+}
+
+#paint-wrapper{
+    max-height: 531px;
+    overflow-y: scroll;
+    margin-bottom: 10px;
 }
 
 *{
