@@ -17,14 +17,6 @@ var Terrain = klass(function(settings) {
 Terrain.methods({
 
   /**
-   * Position our paints around the map.
-   */
-  'generateGameTerrain' : function() {
-    this.applyCoat(this.paints.sand);
-    // this.applyCoat(this.paints.tree);
-  },
-
-  /**
    * Apply a coat of paint to the entire map.
    */
   'applyCoat' : function(paint) {
@@ -70,6 +62,20 @@ Terrain.methods({
    */
   'getPaint' : function(paint_name) {
     return this.paints[paint_name];
+  },
+
+  /**
+   * Get a paint by it's map symbol.
+   */
+  'getPaintByMapSymbol' : function(symbol) {
+    var found_paint = false;
+    $.each(this.paints, function(i, paint) {
+      if (paint.settings.map_symbol == symbol) {
+        found_paint = paint;
+        return;
+      }
+    });
+    return found_paint;
   },
 
   /**
@@ -137,14 +143,14 @@ Terrain.statics({
     'tree' : {
       'img' : 'tree.png',
       'frames' : 1,
-      'map_symbol' : 'i',
+      'map_symbol' : 'T',
       'isometric' : false,
       'offset' : 30
     },
     'palm' : {
       'img' : 'palm.png',
       'frames' : 1,
-      'map_symbol' : 'i',
+      'map_symbol' : 't',
       'isometric' : false,
       'offset' : 30
     },
@@ -158,14 +164,14 @@ Terrain.statics({
     'cactus2' : {
       'img' : 'cactus2.png',
       'frames' : 1,
-      'map_symbol' : '+',
+      'map_symbol' : '^',
       'isometric' : false,
       'offset' : 30
     },
     'grass-rock' : {
       'img' : 'grass-rock.png',
       'frames' : 1,
-      'map_symbol' : 'i',
+      'map_symbol' : '*',
       'isometric' : false,
       'offset' : 30
     }

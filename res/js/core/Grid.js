@@ -24,14 +24,7 @@ var Grid = klass(function(settings){
     'tilt_ratio' : 0.5
   }, settings);
 
-  // Calculate some dimensions.
-  this.settings.pixel_grid_width = this.settings.tile_width * this.settings.grid_width;
-  this.settings.pixel_grid_height = this.settings.tile_height * this.settings.grid_height;
-
-
-  // Setup the initial camera state to be in the middle of our grid.
-  var grid_middle = this.gridToReal(this.settings.pixel_grid_width / 2, this.settings.pixel_grid_height / 2);
-  this.setCameraCenter(grid_middle.x, grid_middle.y);
+  this.setGridWidth(this.settings.grid_width, this.settings.grid_height);
 
 });
 
@@ -197,6 +190,23 @@ Grid.methods({
       'x' : (xi - yi) * d / r,
       'y' : (xi + yi) * d
     };
+  },
+
+  /**
+   * Set the width and height of our grid in tiles.
+   */
+  'setGridWidth' : function(width, height) {
+
+    this.settings.grid_width = width;
+    this.settings.grid_height = width;
+
+    // Calculate some dimensions.
+    this.settings.pixel_grid_width = this.settings.tile_width * width;
+    this.settings.pixel_grid_height = this.settings.tile_height * height;
+
+    // Setup the initial camera state to be in the middle of our grid.
+    var grid_middle = this.gridToReal(this.settings.pixel_grid_width / 2, this.settings.pixel_grid_height / 2);
+    this.setCameraCenter(grid_middle.x, grid_middle.y);
   }
 
 });

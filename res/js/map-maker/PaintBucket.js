@@ -49,6 +49,12 @@ PaintBucket.methods({
       self.$bucket.append($wrap);
     });
 
+    self.$clear = $('<div/>').attr('id', 'clear');
+    self.$save = $('<div/>').attr('id', 'save');
+
+    self.$bucket.append(self.$clear);
+    self.$bucket.append(self.$save);
+
     // Add them to body for lack of a better place.
     $('body').append(self.$bucket);
 
@@ -57,6 +63,15 @@ PaintBucket.methods({
       e.stopPropagation();
       self.setActivePaint($(this).data('paint').settings.name);
     });
+
+    self.$clear.click(function() {
+      self.setActivePaint(false);
+    });
+
+    self.$save.click(function() {
+      self.map_state.saveMap(self.settings.grid);
+    });
+
   },
 
   /**
@@ -65,12 +80,16 @@ PaintBucket.methods({
   'setActivePaint' : function(name) {
 
     var $paints = $('#bucket .wrap');
-    var $dom_paint = $('#paint-' + name);
-
     $paints.removeClass('active');
-    $dom_paint.addClass('active');
 
-    this.active_paint = this.settings.terrain.getPaint(name);
+    if (name) {
+      var $dom_paint = $('#paint-' + name);
+      $dom_paint.addClass('active');
+      this.active_paint = this.settings.terrain.getPaint(name);
+    } else {
+      this.active_paint = false;
+    }
+
   },
 
   /**
@@ -103,18 +122,39 @@ PaintBucket.methods({
   },
 
   /**
+   * Clear a map tile to make way for another resource. A good rule right now is
+   * that each tile may only have 1 occupant that is isometric and 1 occupant
+   * that is non-isometric. This allows for a base and an item, something like
+   * a tree on top.
+   */
+  'clearMap' : function(tile, makeWayFor) {
+    var self = this;
+    var paints = self.settings.terrain.getPaints();
+    $.each(paints, function(paint_name, paint) {
+      if (makeWayFor) {
+        // Ensure we are removing a paint of the same type.
+        if (paint.settings.isometric != makeWayFor.settings.isometric) {
+          return;
+        }
+      }
+      paint.removeFromGrid(tile.x, tile.y);
+    });
+  },
+
+  /**
    * Please a resource on the map based on the state of the current paint bucket.
    */
   'placeResource' : function(x, y) {
     var self = this;
     var grid = this.settings.grid;
     var grid_location = grid.realToGrid(x, y);
+
+
     var tile = grid.getTileByGridCoordinates(grid_location.x, grid_location.y);
 
-    if (this.active_paint) {
-      this.active_paint.addToGrid(tile.x, tile.y);
-      self.map_state.fixTiles();
-      self.map_state.saveMap();
+    self.clearMap(tile, self.active_paint);
+    if (self.active_paint) {
+      self.active_paint.addToGrid(tile.x, tile.y);
     }
   },
 
@@ -135,7 +175,6 @@ PaintBucket.methods({
 
     // Highlight that tile.
     grid.highlightWireGrid(tile.x, tile.y);
-
   }
 
 });

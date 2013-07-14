@@ -1,40 +1,42 @@
-
 /**
  * Our main RTS application object.
  */
-var RTS = klass(function(settings) {
-
+var TickableState = klass(function(settings) {
   this.settings = _.extend({
+    'ticks_per_second' : 24
   }, settings);
-
 });
 
 
-RTS.methods({
+TickableState.methods({
 
   /**
-   * Setup the initial state of our RTS ready for ticking.
+   * This method should be override to setup the state of whatever is being ticked.
    */
   'setupInitialState' : function() {
-
-    // Spool up our canvas instance.
-    this.canvas = new Canvas();
-    this.canvas.create(window.innerWidth, window.innerHeight);
-
-    this.game = new Game({'context' : this.canvas.getContext() });
-    this.game.setupGame();
-
-    // Ensure we are capturing input events.
-    Input.startCapture();
-
   },
 
 
   /**
-   * Called when game is ticking. Handle main gameplay logic.
+   * This should also be overriden to provide the logic for the ticking.
    */
   'tick' : function() {
-    this.game.tick();
+  },
+
+  /**
+   * Set up the ticking state internall.
+   */
+  'internalSetup' : function() {
+    // Spool up our canvas instance.
+    this.canvas = new Canvas();
+    this.canvas.create(window.innerWidth, window.innerHeight);
+  },
+
+  /**
+   * Get the canvas instance.
+   */
+  'getCanvas' : function() {
+    return this.canvas;
   },
 
   /**
@@ -43,7 +45,12 @@ RTS.methods({
   'start' : function() {
     var self = this;
 
+    self.internalSetup();
     self.setupInitialState();
+
+    // Ensure we are capturing input events.
+    Input.startCapture();
+
     var context = this.canvas.getContext();
 
     // Create a game ticker to handle gameplay.
@@ -53,10 +60,9 @@ RTS.methods({
           self.canvas.clearContext();
           self.tick();
         },
-        'ticks_per_second' : 24
+        'ticks_per_second' : self.settings.ticks_per_second
       }
     ).start();
   }
 
 });
-

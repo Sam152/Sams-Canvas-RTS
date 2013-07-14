@@ -2,30 +2,36 @@
 /**
  * Represents an encounter between a group of players.
  */
-var Game = klass(function(settings) {
-
+var Game = TickableState.extend(function(settings) {
   this.settings = _.extend({
-    'context' : false
-  }, settings);
-
+  }, this.settings, settings);
 });
 
 
 Game.methods({
 
-  'setupGame' : function() {
+  'setupInitialState' : function() {
+    var self = this;
 
     // Create a grid to play the game on.
-    this.grid = new Grid({'context' : this.settings.context});
+    self.grid = new Grid({'context' : self.getCanvas().getContext() });
 
     // Create terrain to paint over the world.
     this.terrain = new Terrain({
-      'grid' : this.grid,
-      'context' : this.settings.context
+      'grid' : self.grid,
+      'context' : self.getCanvas().getContext()
+    });
+
+    var state = new MapState({
+      'terrain' : self.terrain,
+      'grid' : self.grid
     });
 
     this.terrain.loadPaints();
-    this.terrain.generateGameTerrain();
+
+    // Load our test map.
+    state.loadMap('test.map');
+
   },
 
   'tick' : function() {

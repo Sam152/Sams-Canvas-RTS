@@ -23,8 +23,8 @@ canvas{
 
 #bucket .wrap,
 #bucket .wrap img{
-  width:64px;
-  height:64px;
+  width:32px;
+  height:32px;
 }
 
 #bucket .wrap{
@@ -39,6 +39,18 @@ canvas{
 
 #bucket img{
   display:block;
+}
+
+#clear,
+#save{
+  width:16px;
+  height:16px;
+  float:left;
+  background-image:url('../img/save.png');
+}
+
+#clear{
+  background-image:url('../img/delete.png');
 }
 
 *{

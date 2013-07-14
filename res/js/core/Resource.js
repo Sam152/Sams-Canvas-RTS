@@ -23,6 +23,10 @@ Resource.methods({
 
   'getPath' : function() {
     return 'res/' + this.settings.type + '/' + this.settings.source;
+  },
+
+  'getString' : function(callback) {
+    $.get(this.getPath(), callback)
   }
 
 });

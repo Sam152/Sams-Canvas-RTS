@@ -48,6 +48,12 @@ TerrainPaint.methods({
       'pixel_x' : this.settings.grid.settings.tile_width * x,
       'pixel_y' : this.settings.grid.settings.tile_height * y,
     });
+  },
+
+  'removeFromGrid' : function(x, y) {
+    this.paint_locations = _(this.paint_locations).reject(function(el) {
+      return el.grid_x == x && el.grid_y == y;
+    });
   }
 
 });

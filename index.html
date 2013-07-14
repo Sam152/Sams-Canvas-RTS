@@ -6,6 +6,7 @@
     <script src="res/lib/klass.min.js"></script>
     <script src="res/lib/underscore-min.js"></script>
     <script src="res/lib/jquery.min.js"></script>
+    <script src="res/lib/encode.js"></script>
     <script type="text/javascript">$=jQuery;</script>
 
     <script src="res/js/core/Grid.js"></script>
@@ -13,17 +14,18 @@
     <script src="res/js/core/Ticker.js"></script>
     <script src="res/js/core/Input.js"></script>
     <script src="res/js/core/MapState.js"></script>
+    <script src="res/js/core/TickableState.js"></script>
     <script src="res/js/core/Player.js"></script>
     <script src="res/js/core/Positionable.js"></script>
-    <script src="res/js/game/RTS.js"></script>
     <script src="res/js/core/Canvas.js"></script>
     <script src="res/js/core/Sprite.js"></script>
     <script src="res/js/core/Terrain.js"></script>
     <script src="res/js/core/TerrainPaint.js"></script>
     <script src="res/js/core/Unit.js"></script>
-    <script src="res/js/game/Game.js"></script>
-    <script src="res/js/map-maker/MapMaker.js"></script>
     <script src="res/js/map-maker/PaintBucket.js"></script>
+
+    <script src="res/js/map-maker/MapMaker.js"></script>
+    <script src="res/js/game/Game.js"></script>
 
     <link rel="stylesheet" href="res/css/page.css" type="text/css" />
 
@@ -32,7 +34,8 @@
   <body />
 
   <script type="text/javascript">
-    (new MapMaker().start());
+//    (new MapMaker().start());
+    (new Game().start());
   </script>
 
 </html>

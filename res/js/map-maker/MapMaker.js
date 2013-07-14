@@ -2,9 +2,9 @@
 /**
  * Our main RTS application object.
  */
-var MapMaker = RTS.extend(function(settings) {
+var MapMaker = TickableState.extend(function(settings) {
   this.settings = _.extend({
-  }, settings);
+  }, this.settings, settings);
 });
 
 
@@ -15,12 +15,8 @@ MapMaker.methods({
    */
   'setupInitialState' : function() {
 
-    // Spool up our canvas instance.
-    this.canvas = new Canvas();
-    this.canvas.create(window.innerWidth, window.innerHeight);
-
     // Get the context from the canvas.
-    var context = this.canvas.getContext();
+    var context = this.getCanvas().getContext();
 
     // Create a grid to play the game on.
     this.grid = new Grid({
@@ -47,20 +43,18 @@ MapMaker.methods({
 
     this.paint_bucket.setupInitialState();
 
-    // Ensure we are capturing input events.
-    Input.startCapture();
-
   },
 
 
   /**
-   * Called when game is ticking. Handle main gameplay logic.
+   * Ticks the map maker. If things can happen asynchronously safely, their
+   * own tickers can be created in the setup function.
    */
   'tick' : function() {
     this.terrain.tick();
     this.grid.tick();
     this.paint_bucket.tick();
-  },
+  }
 
 });
 
