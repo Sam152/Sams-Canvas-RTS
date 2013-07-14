@@ -127,6 +127,13 @@ Terrain.statics({
       'isometric' : true,
       'offset' : 30
     },
+    'desert' : {
+      'img' : 'desert.jpg',
+      'frames' : 1,
+      'map_symbol' : 'd',
+      'isometric' : true,
+      'offset' : 30
+    },
     'tree' : {
       'img' : 'tree.png',
       'frames' : 1,
@@ -134,6 +141,34 @@ Terrain.statics({
       'isometric' : false,
       'offset' : 30
     },
+    'palm' : {
+      'img' : 'palm.png',
+      'frames' : 1,
+      'map_symbol' : 'i',
+      'isometric' : false,
+      'offset' : 30
+    },
+    'cactus1' : {
+      'img' : 'cactus1.png',
+      'frames' : 1,
+      'map_symbol' : '+',
+      'isometric' : false,
+      'offset' : 30
+    },
+    'cactus2' : {
+      'img' : 'cactus2.png',
+      'frames' : 1,
+      'map_symbol' : '+',
+      'isometric' : false,
+      'offset' : 30
+    },
+    'grass-rock' : {
+      'img' : 'grass-rock.png',
+      'frames' : 1,
+      'map_symbol' : 'i',
+      'isometric' : false,
+      'offset' : 30
+    }
   }
 });
 

@@ -11,6 +11,11 @@ var PaintBucket = klass(function(settings) {
 
   this.active_paint = false;
 
+  this.map_state = new MapState({
+    'grid' : this.settings.grid,
+    'terrain' : this.settings.terrain
+  });
+
 });
 
 
@@ -101,12 +106,15 @@ PaintBucket.methods({
    * Please a resource on the map based on the state of the current paint bucket.
    */
   'placeResource' : function(x, y) {
+    var self = this;
     var grid = this.settings.grid;
     var grid_location = grid.realToGrid(x, y);
     var tile = grid.getTileByGridCoordinates(grid_location.x, grid_location.y);
 
     if (this.active_paint) {
       this.active_paint.addToGrid(tile.x, tile.y);
+      self.map_state.fixTiles();
+      self.map_state.saveMap();
     }
   },
 

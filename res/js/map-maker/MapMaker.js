@@ -23,7 +23,11 @@ MapMaker.methods({
     var context = this.canvas.getContext();
 
     // Create a grid to play the game on.
-    this.grid = new Grid({'context' : context });
+    this.grid = new Grid({
+      'context' : context,
+      'grid_width' : 60,
+      'grid_height' : 60
+    });
 
     // Create terrain to paint over the world.
     this.terrain = new Terrain({

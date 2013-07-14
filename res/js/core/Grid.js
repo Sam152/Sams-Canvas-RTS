@@ -28,6 +28,7 @@ var Grid = klass(function(settings){
   this.settings.pixel_grid_width = this.settings.tile_width * this.settings.grid_width;
   this.settings.pixel_grid_height = this.settings.tile_height * this.settings.grid_height;
 
+
   // Setup the initial camera state to be in the middle of our grid.
   var grid_middle = this.gridToReal(this.settings.pixel_grid_width / 2, this.settings.pixel_grid_height / 2);
   this.setCameraCenter(grid_middle.x, grid_middle.y);
@@ -177,7 +178,7 @@ Grid.methods({
     x -= this.settings.camera_x;
     y -= this.settings.camera_y;
     var r = 2;
-    var d = 1.4;
+    var d = 1.415;
     return {
       'x' : Math.floor(x/d + r*y/d),
       'y' : Math.floor(r*y/d - x/d)
@@ -191,7 +192,7 @@ Grid.methods({
     xi += this.settings.camera_x;
     yi += this.settings.camera_y;
     var r = 2;
-    var d = 1.4;
+    var d = 1.415;
     return {
       'x' : (xi - yi) * d / r,
       'y' : (xi + yi) * d
